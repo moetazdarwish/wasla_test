@@ -4,7 +4,7 @@ from botocore.exceptions import ClientError
 from decimal import Decimal
 from boto3.dynamodb.conditions import Key
 
-# Initialize the DynamoDB client
+# Initialize DynamoDB 
 dynamodb = boto3.resource('dynamodb', region_name='eu-north-1')
 dynamodb_table = dynamodb.Table('WASLA_Table')
 
