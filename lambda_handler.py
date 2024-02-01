@@ -27,9 +27,9 @@ def lambda_handler(event, context):
             response = get_ProductList()
         elif http_method == 'POST' and path == product_path:
             response = add_product(json.loads(event['body']))
-        elif http_method == 'PATCH' and path == product_path:
+        elif http_method == 'PUT' and path == product_path:
             body = json.loads(event['body'])
-            response = update_product(body['id'], body['updateKey'], body['updateValue'])
+            response = update_product(body['id'], body['Key'], body['Value'])
         elif http_method == 'DELETE' and path == product_path:
             body = json.loads(event['body'])
             response = delete_product(body['id'])
@@ -85,12 +85,12 @@ def add_product(request_body):
         print('Error:', e)
         return build_response(400, e.response['Error']['Message'])
 
-def update_product(product_id, update_key, update_value):
+def update_product(product_id, key, value):
     try:
         response = dynamodb_table.update_item(
             Key={'id': product_id},
-            UpdateExpression=f'SET {update_key} = :value',
-            ExpressionAttributeValues={':value': update_value},
+            UpdateExpression=f'SET {key} = :value',
+            ExpressionAttributeValues={':value': value},
             ReturnValues='UPDATED_NEW'
         )
         body = {
